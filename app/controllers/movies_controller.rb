@@ -7,6 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @clicked = params[:clicked]
     @all_ratings = Movie.all_ratings
     if (params[:ratings] != nil)
       @ratings_to_show = params[:ratings].keys
@@ -14,6 +15,12 @@ class MoviesController < ApplicationController
     else
       @ratings_to_show = []
       @movies = Movie.all
+    end
+    
+    if (@clicked == "release")
+      @movies = @movies.order('release_date')
+    elsif (@clicked == "title")
+      @movies = @movies.order('title')
     end
     
   end
