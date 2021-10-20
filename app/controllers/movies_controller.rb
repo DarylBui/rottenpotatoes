@@ -39,7 +39,7 @@ class MoviesController < ApplicationController
       @movies = @movies.order('title')
     end
     
-    if(redirect)
+    if(params[:ratings].nil? || params[:clicked].nil?)
       redirect_to movies_path(clicked: @clicked, ratings: Hash[@ratings_to_show.collect { |v| [v, 1] }])
     end
   end
