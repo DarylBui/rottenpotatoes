@@ -9,10 +9,11 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
     
-    if (!params.has_key?(:ratings) && session[:ratings_to_show] != nil)
+    if (params[:ratings]==nil && session[:ratings_to_show] != nil)
       # params[:ratings] = session[:ratings_to_show]
       @ratings_to_show = session[:ratings_to_show]
       @movies = Movie.with_ratings(@ratings_to_show)
+      redirect = true
     elsif (params.has_key?(:ratings))
       @ratings_to_show = params[:ratings].keys
       @movies = Movie.with_ratings(@ratings_to_show)
@@ -39,7 +40,7 @@ class MoviesController < ApplicationController
       @movies = @movies.order('title')
     end
     
-    if((!params.has_key?(:ratings)) || (!params.has_key?(:clicked)))
+    if(redirect)
       redirect_to movies_path(clicked: @clicked, ratings: Hash[@ratings_to_show.collect { |v| [v, 1] }])
     end
   end
