@@ -39,6 +39,8 @@ class MoviesController < ApplicationController
     end
     
     if ((!params[:ratings].nil?) || (!params[:clicked].nil?))
+      params[:ratings] = nil
+      params[:clicked] = nil
       redirect_to movies_path
     end
   end
