@@ -10,6 +10,7 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
 
     if (params[:ratings].nil? && session[:ratings_to_show] != nil)
+      # params[:ratings] = session[:ratings_to_show]
       @ratings_to_show = session[:ratings_to_show]
       @movies = Movie.with_ratings(@ratings_to_show)
     elsif (!params[:ratings].nil?)
@@ -22,6 +23,7 @@ class MoviesController < ApplicationController
 
         
     if (params[:clicked] == nil && session[:clicked] != nil)
+      # params[:clicked] = session[:clicked]
       @clicked = session[:clicked]
     elsif (params[:clicked] != nil)
       @clicked = params[:clicked]
@@ -34,6 +36,10 @@ class MoviesController < ApplicationController
       @movies = @movies.order('release_date')
     elsif (@clicked == "title")
       @movies = @movies.order('title')
+    end
+    
+    if ((!params[:ratings].nil?) || (!params[:clicked].nil?))
+      redirect_to movies_path
     end
   end
 
